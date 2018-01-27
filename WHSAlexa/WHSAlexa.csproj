@@ -16,7 +16,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,11 +52,21 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\WHSAlexa.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AlertFramework">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Windows Server 2012 Essentials\6.2\Library\AlertFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.WindowsServerSolutions.Administration.ObjectModel, Version=6.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Windows Server 2012 Essentials\6.2\Library\Microsoft.windowsserversolutions.administration.objectmodel.dll</HintPath>
+    </Reference>
+    <Reference Include="ProviderFramework">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Microsoft SDKs\Windows Server 2012 Essentials\6.2\Library\ProviderFramework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -110,7 +121,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\GenericIcon.ico" />
+    <None Include="Resources\WHSAlexa.ico" />
     <Content Include="TopLevelAddinConfig.addin">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -119,6 +130,7 @@
     <EmbeddedResource Include="TopLevelTab.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TopLevelTab.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WHSAlexaControl\WHSAlexaControl.resx">
       <DependentUpon>WHSAlexaControl.cs</DependentUpon>

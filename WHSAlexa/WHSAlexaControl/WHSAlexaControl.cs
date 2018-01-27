@@ -6,94 +6,43 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Diagnostics;
+using Microsoft.WindowsServerSolutions.NetworkHealth.AlertFramework;
 
 namespace WHSAlexa
 {
     public partial class WHSAlexaControl : UserControl
     {
-        private class ProcessInfo
-        {
-            private int _Id;
-            public int Id
-            {
-                get
-                {
-                    return (_Id);
-                }
-            }
-
-            private string _Name = "Unknown";
-            public string Name
-            {
-                get
-                {
-                    return (_Name);
-                }
-            }
-
-            public ProcessInfo(int id, string name)
-            {
-                _Id = id;
-                _Name = name;
-            }
-
-            public override string ToString()
-            {
-                return (Name + " (" + Id + ")");
-            }
-        }
-
-        private Random rand = new Random();
+        LocalAlertManager lam;
+        ReadOnlyAlertCollection alerts;
 
         public WHSAlexaControl()
         {
             InitializeComponent();
-            GetProcesses();
+            GetAlerts();
         }
 
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (listBox1.SelectedIndex >= 0)
-            {
-                var details = "";
-                try
-                {
-                    var processInfo = listBox1.SelectedItem as ProcessInfo;
-                    var process = Process.GetProcessById(processInfo.Id);
-
-                    details += "Process name: " + process.ProcessName;
-                    details += Environment.NewLine + "Working set: " + process.WorkingSet64 + " bytes";
-                    details += Environment.NewLine + "Main module: " + process.MainModule.FileName;
-                }
-                catch
-                {
-                    details = "Error retrieving informations";
-                }
-                textBox1.Text = details;
-            }
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Click");
+            GetAlerts();
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            GetProcesses();
-        }
-
-        private void GetProcesses()
+        private void GetAlerts()
         {
             listBox1.Items.Clear();
-            var processes = Process.GetProcesses();
+            
+            lam = new LocalAlertManager();
+            lam.GetAllLocalAlerts();
+            alerts = lam.AlertCollection;
 
-            foreach (var process in processes)
+            foreach (var alert in alerts)
             {
-                var processInfo = new ProcessInfo(process.Id, process.ProcessName);
-                listBox1.Items.Add(processInfo);
+                var alertInfo = alert.HealthDefinitionTitle;
+                if (!alert.HealthDefinitionName.EndsWith("Info"))
+                    listBox1.Items.Add(alertInfo);
             }
+
+
         }
     }
 }
